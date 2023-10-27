@@ -3,8 +3,7 @@ package main;
 import java.util.Random;
 import java.util.Scanner;
 
-public class DiceGameLogic implements Logic{
-    Scanner input = new Scanner(System.in);
+public class DiceGameLogic implements Logic {
 
     @Override
     public Player firstPlayer(Player[] players) {
@@ -16,19 +15,21 @@ public class DiceGameLogic implements Logic{
     public boolean gameEnded(Player player) {
 
         return player.getAccount().getBalance() > 3000;
-        
+
     }
 
     @Override
     public Field getField(Field[] fields, DiceRoll diceRoll) {
-    
-        return fields[diceRoll.getValue()-1];
+
+        return fields[diceRoll.getValue() - 1];
     }
 
     @Override
     public String keyPressed() {
-
-        return input.nextLine();
+        Scanner input = new Scanner(System.in);
+        var string = input.nextLine();
+        input.close();
+        return string;
     }
 
     @Override
@@ -77,11 +78,13 @@ public class DiceGameLogic implements Logic{
 
     @Override
     public void updateAccount(Player player, Field field) {
-       int newBalance = player.getAccount().getBalance() + field.getPoint();
-       player.getAccount().setBalance(newBalance);
+        int newBalance = player.getAccount().getBalance() + field.getPoint();
+        if (newBalance >= 0) {
+            newBalance = 0;
+        }
+
+        player.getAccount().setBalance(newBalance);
 
     }
-
-    
 
 }
